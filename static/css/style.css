@@ -1,0 +1,117 @@
+.main {
+    width: 800px;
+    margin: auto;
+    padding-bottom: 5px;
+    }
+
+.top {
+    font-size: 24pt;
+    width: 800px;
+    text-align: center;
+    height: 100px;
+    padding: 0;
+    display: table-cell;
+    vertical-align: middle;
+    }
+
+.todo_list {
+    display: table;
+    margin: 0 auto;
+    }
+
+.task_add{
+    width: 700px;
+    min-height: 60px;
+    border: 1px solid #e2e2e2;
+    margin-top: 10px;
+    background-color: #fff;
+    resize: vertical;
+    -webkit-box-shadow: 0 10px 6px -6px #767676;
+    -moz-box-shadow: 0 10px 6px -6px #767676;
+	box-shadow: 0 10px 6px -6px #767676;
+    }
+
+.task_comp{
+    color: #155724;
+    width: 700px;
+    min-height: 60px;
+    border: 1px solid #c3e6cb;
+    margin-top: 10px;
+    background-color: #d4edda;
+    resize: vertical;
+    -webkit-box-shadow: 0 10px 6px -6px #767676;
+    -moz-box-shadow: 0 10px 6px -6px #767676;
+	box-shadow: 0 10px 6px -6px #767676;
+    }
+
+.task_uncomp{
+    width: 700px;
+    min-height: 60px;
+    border: 1px solid #e2e2e2;
+    margin-top: 10px;
+    background-color: #fff;
+    resize: vertical;
+    -webkit-box-shadow: 0 10px 6px -6px #767676;
+    -moz-box-shadow: 0 10px 6px -6px #767676;
+	box-shadow: 0 10px 6px -6px #767676;
+}
+
+.text {
+    max-height: 40px;
+    margin-left: 10px;
+    margin-top: 15px;
+    margin-right: 10px;
+    max-width: 340px;
+    display: inline-block;
+    }
+
+.text_add{
+    margin-top: 15px;
+    max-height: 30px;
+    padding-left: 10px;
+    width: 340px;
+    border: none;
+    margin-bottom: 10px;
+    resize: none;
+    }
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.textChange_uncomp{
+    border: 0;
+    resize: none;
+    overflow: hidden;
+    width: 340px;
+}
+
+.textChange_comp{
+    border: 0;
+    resize: none;
+    overflow: hidden;
+    width: 340px;
+    background-color: #d4edda;
+}
+
+.buttons {
+    padding-top: 10px;
+    padding-right: 10px;
+    display: inline-block;
+    }
+
+.button {
+    display: inline-block;
+    margin-left: 5px;
+    }
+
+.completed{
+    padding-left: 5px;
+    display:inline-block;
+    padding-top: 10px;
+}
+
+.checkbox {
+    width: 40px;
+    height: 40px;
+}
