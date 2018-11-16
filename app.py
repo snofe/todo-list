@@ -1,6 +1,5 @@
-from flask import Flask, render_template, url_for, jsonify, request
+from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/main.db'
