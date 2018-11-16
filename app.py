@@ -41,22 +41,22 @@ def get_task():
 @app.route('/task', methods=['POST'])  # main handle function
 def post_task():
     dict_data = eval(request.data.decode('utf-8'))  # firstly get and decode data from request
-    if dict_data['action'] == 'add' and dict_data['data']['text'] != '':  # add task
+    if dict_data['action']['action'] == 'add' and dict_data['data']['text'] != '':  # add task
         task = Tasks(text=dict_data['data']['text'], completed=False)
         db.session.add(task)
         db.session.commit()
-    elif dict_data['action'] == 'complete':  # change status of task
+    elif dict_data['action']['action'] == 'complete':  # change status of task
         task = Tasks.query.filter_by(id=int(dict_data['data']['id'])).first()
         if task.completed:  # change status on opposite value
             task.completed = False
         else:
             task.completed = True
         db.session.commit()
-    elif dict_data['action'] == 'delete':  # delete task
+    elif dict_data['action']['action'] == 'delete':  # delete task
         task = Tasks.query.filter_by(id=int(dict_data['data']['id'])).first()
         db.session.delete(task)
         db.session.commit()
-    elif dict_data['action'] == 'change':  # change tasks text
+    elif dict_data['action']['action'] == 'change':  # change tasks text
         task = Tasks.query.filter_by(id=int(dict_data['data']['id'])).first()
         task.text = dict_data['data']['text']
         db.session.commit()
