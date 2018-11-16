@@ -10,7 +10,8 @@ class AddTask extends React.Component {
             alert('Задание не может быть пустым');
         }
         else {
-            this.props.onTaskAdd({text});
+            let action = 'add'
+            this.props.handleTask({text}, {action});
             this.setState({ text: '' })
         }
     };
@@ -24,7 +25,7 @@ class AddTask extends React.Component {
         return (
             <div className="task_add rounded">
                 <form>
-                    <textarea maxlength="240" className='text_add' onChange={this.handleTextChange} value={text}></textarea>
+                    <textarea maxLength="240" className='text_add' onChange={this.handleTextChange} value={text}></textarea>
                     <div className="buttons float-right">
                         <div className="button"><input type="submit" className="btn btn-primary" onClick={this.onBtnClickHandler} value="Добавить"/></div>
                     </div>
@@ -44,26 +45,28 @@ class Task extends React.Component {
     compBtn = (e) => {
         e.preventDefault();
         let id = this.props.id;
-        this.props.completeTask({id})
+        let action = 'complete';
+        this.props.handleTask({id},{action})
     };
 
     delBtn = (e) => {
         e.preventDefault();
         let id = this.props.id;
-        this.props.deleteTask({id})
+        let action = 'delete';
+        this.props.handleTask({id},{action})
     };
 
     changeText = (e) => {
         e.preventDefault();
         if (this.state.change) {
-            console.log(this.state.text);
             if (!this.state.text) {
                 alert('Заполните текст задания');
             } else {
                 this.setState({change: false});
                 let id = this.props.id;
                 let text = this.state.text;
-                this.props.changeTask({id, text})
+                let action = 'change';
+                this.props.handleTask({id, text},{action})
             }
         } else {
             this.setState({change: true})
@@ -85,7 +88,7 @@ class Task extends React.Component {
                     </div>
                     :
                     <div className="text">
-                        <textarea maxlength="240" className={!completed ? "textChange_uncomp": "textChange_comp"} onChange={this.handleTextChange} defaultValue={text}></textarea>
+                        <textarea maxLength="240" className={!completed ? "textChange_uncomp": "textChange_comp"} onChange={this.handleTextChange} defaultValue={text}></textarea>
                     </div>
                 }
                 <div className="buttons float-right">
@@ -106,13 +109,11 @@ class Todolist extends React.Component {
 
     renderTasks = () => {
         const { data } = this.props;
-        let handleDeleteTask = this.props.handleDeleteTask;
-        let handleCompleteTask = this.props.handleCompleteTask;
-        let handleChangeTask = this.props.handleChangeTask;
+        let handleTask = this.props.handleTask;
         let taskTemplate = null;
         if (data != null) {
             taskTemplate = data.reverse().map(function (item) {
-                return <Task key={item.id} id={item.id} data={item} changeTask={handleChangeTask} completeTask={handleCompleteTask} deleteTask={handleDeleteTask}/>
+                return <Task key={item.id} id={item.id} data={item} handleTask={handleTask}/>
             })
         } else {
             taskTemplate = <p>Loading</p>
@@ -137,9 +138,7 @@ class App extends React.Component {
             tasks: null
         };
 
-        this.handleDeleteTask = this.handleDeleteTask.bind(this);
-        this.handleCompleteTask = this.handleCompleteTask.bind(this);
-        this.handleChangeTask = this.handleChangeTask.bind(this);
+        this.handleTask = this.handleTask.bind(this);
     }
 
     componentDidMount() {
@@ -152,8 +151,7 @@ class App extends React.Component {
             })
     }
 
-    handleAddTask = (data) => {
-        let action = 'add';
+    handleTask = (data, action) => {
         fetch('/task', {
             method: 'POST',
             body: JSON.stringify({action, data})
@@ -166,53 +164,12 @@ class App extends React.Component {
             })
     };
 
-    handleCompleteTask = (data) => {
-        let action = 'complete';
-        fetch('/task', {
-            method: 'POST',
-            body: JSON.stringify({action, data})
-        })
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                this.setState({tasks: data})
-            })
-    };
-
-    handleDeleteTask = (data) => {
-        let action = 'delete';
-        fetch('/task', {
-            method: 'POST',
-            body: JSON.stringify({action, data})
-        })
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                this.setState({tasks: data})
-            })
-    };
-
-    handleChangeTask = (data) => {
-        let action = 'change';
-        fetch('/task', {
-            method: 'POST',
-            body: JSON.stringify({action, data})
-        })
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                this.setState({tasks: data})
-            })
-    };
 
     render() {
         return (
             <React.Fragment>
-                <AddTask onTaskAdd={this.handleAddTask}/>
-                <Todolist data={this.state.tasks} handleCompleteTask={this.handleCompleteTask} handleChangeTask={this.handleChangeTask} handleDeleteTask={this.handleDeleteTask}/>
+                <AddTask handleTask={this.handleTask}/>
+                <Todolist data={this.state.tasks} handleTask={this.handleTask}/>
             </React.Fragment>
         )
     }
